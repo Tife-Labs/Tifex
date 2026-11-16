@@ -10,32 +10,32 @@ export default function CTA() {
   const email = process.env.CONTACT_EMAIL;
   const phoneDigits = process.env.CONTACT_PHONE_DIGITS;
 
-  // Fail loud in dev if env is missing — never ship a broken contact section
+  // Warn if env is missing, and only render the links we have real values for
   if (!email || !phoneDigits) {
-    throw new Error(
+    console.warn(
       'Missing CONTACT_EMAIL or CONTACT_PHONE_DIGITS. Copy .env.example to .env.local and fill in real values.'
     );
   }
 
   const contacts: Contact[] = [
-    {
+    email && {
       label: email,
       href: `mailto:${email}?subject=${encodeURIComponent(
         'Project inquiry — Tifex'
       )}`,
       primary: true,
     },
-    {
+    phoneDigits && {
       label: 'WhatsApp',
       href: `https://wa.me/${phoneDigits}`,
       primary: false,
     },
-    {
+    phoneDigits && {
       label: 'Telegram',
       href: `https://t.me/+${phoneDigits}`,
       primary: false,
     },
-  ];
+  ].filter((c): c is Contact => Boolean(c));
 
   return (
     <section id="contact" className={styles.wrap}>
