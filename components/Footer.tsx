@@ -6,15 +6,19 @@ export default function Footer() {
   const phone = process.env.CONTACT_PHONE;
 
   if (!email || !phoneDigits || !phone) {
-    throw new Error(
+    console.warn(
       'Missing CONTACT_* env vars. Copy .env.example to .env.local and fill in real values.'
     );
   }
 
   const socials = [
-    { label: 'Email', href: `mailto:${email}` },
-    { label: 'WhatsApp', href: `https://wa.me/${phoneDigits}` },
-    { label: 'Telegram', href: `https://t.me/+${phoneDigits}` },
+    ...(email ? [{ label: 'Email', href: `mailto:${email}` }] : []),
+    ...(phoneDigits
+      ? [
+          { label: 'WhatsApp', href: `https://wa.me/${phoneDigits}` },
+          { label: 'Telegram', href: `https://t.me/+${phoneDigits}` },
+        ]
+      : []),
     { label: 'GitHub', href: 'https://github.com/' },
     { label: 'LinkedIn', href: 'https://linkedin.com/' },
     { label: 'X', href: 'https://x.com/' },
@@ -33,9 +37,11 @@ export default function Footer() {
             <p className={styles.tagline}>
               A creative technology studio by Tifelabz.
             </p>
-            <p className={styles.tagline} style={{ marginTop: '0.4rem' }}>
-              {email} · {phone}
-            </p>
+            {(email || phone) && (
+              <p className={styles.tagline} style={{ marginTop: '0.4rem' }}>
+                {[email, phone].filter(Boolean).join(' · ')}
+              </p>
+            )}
           </div>
 
           <ul className={styles.socials}>
