@@ -47,3 +47,8 @@ cp .env.example .env.local
 
 # 5. Start the dev server
 npm run dev
+## 📄 License
+
+Licensed under the **Apache License, Version 2.0**.
+You may not use this project except in compliance with the License.
+A copy of the License is included in the [`LICENSE`](./LICENSE) file.
